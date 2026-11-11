@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tanishq – Fayol’s Principles: Traditional vs Extended</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#faf5ea;--card:#fffdf8;--ink:#2b1a1d;--mute:#7a6a66;--line:#e6d9bf;--maroon:#6b1f2a;--gold:#b8862b;--g:#2f7d4f;--a:#c98a12;--r:#b23a3a;--on:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1214;--card:#261a1d;--ink:#f3e9d6;--mute:#b3a08f;--line:#43302f;--maroon:#e08a93;--gold:#e0b45a;--g:#5cc08a;--a:#e8b23c;--r:#ef7b7b;--on:#1b1214;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1b1214;--card:#261a1d;--ink:#f3e9d6;--mute:#b3a08f;--line:#43302f;--maroon:#e08a93;--gold:#e0b45a;--g:#5cc08a;--a:#e8b23c;--r:#ef7b7b;--on:#1b1214;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:20px 16px 48px}
+h1,h2{font-family:"Cormorant Garamond",Georgia,serif;margin:0;color:var(--maroon)}
+h1{font-size:clamp(28px,5vw,44px);line-height:1.1}
+h2{font-size:22px;margin-bottom:10px}
+header{border-bottom:2px solid var(--gold);padding-bottom:14px;margin-bottom:16px}
+header p{margin:6px 0 0;color:var(--mute);max-width:75ch}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 0}
+.bar button,.reset{border:1px solid var(--gold);background:transparent;color:var(--ink);padding:8px 16px;border-radius:999px;font:inherit;cursor:pointer}
+.bar button[aria-pressed="true"]{background:var(--maroon);color:var(--card);border-color:var(--maroon)}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:12px}
+.kpis .card{margin:0}
+.kpi b{display:block;font:700 34px/1.1 "Cormorant Garamond",Georgia,serif;color:var(--maroon)}
+.kpi span{color:var(--mute);font-size:13px}.kpi small{display:block;margin-top:4px;font-size:13px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.cv{position:relative;height:380px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-weight:600}
+td input{width:58px;padding:4px;font:inherit;border:1px solid var(--gold);border-radius:6px;background:var(--bg);color:var(--ink);text-align:center}
+.pill{display:inline-block;min-width:30px;text-align:center;padding:1px 9px;border-radius:999px;color:var(--on);font-weight:600}
+.G{background:var(--g)}.A{background:var(--a)}.R{background:var(--r)}
+.new td:first-child::after{content:" (new)";color:var(--gold);font-size:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.tile{border-radius:8px;padding:10px;color:var(--on);font-size:13px}.tile b{display:block;font-size:14px}
+details{border-left:3px solid var(--gold);padding:4px 12px;margin-top:10px}
+summary{cursor:pointer;font-weight:600;color:var(--maroon)}
+ul{margin:0;padding-left:18px}li{margin:6px 0}
+.note{color:var(--mute);font-size:12.5px;margin-top:14px}
+.row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Tanishq – Fayol’s Principles: Traditional vs Extended</h1>
+<p>Group 7 · Management Concepts and Practices. Titan’s jewellery brand is scored in three stages: the original 14 principles, a modernized framework with four added principles, then a side-by-side dashboard. Scores are editable, and every chart updates.</p>
+<div class="bar" role="group" aria-label="Stage">
+<button data-s="1" aria-pressed="true">Stage 1: Traditional</button>
+<button data-s="2" aria-pressed="false">Stage 2: Extended</button>
+<button data-s="3" aria-pressed="false">Stage 3: Compare dashboard</button>
+</div>
+</header>
+
+<section class="card" id="logic"></section>
+<section id="kpis" class="kpis" hidden></section>
+
+<section class="grid">
+<div class="card"><h2 id="rt">Score profile</h2><div class="cv"><canvas id="radar"></canvas></div></div>
+<div class="card"><div id="rubric"></div><div id="gapbox" hidden><h2>Gain from extension, by principle</h2><div class="cv"><canvas id="gap"></canvas></div></div></div>
+</section>
+
+<section class="card" id="tcard">
+<div class="row"><h2 id="tt">Scorecard</h2><button class="reset" id="reset">Reset scores</button></div>
+<div class="scroll"><table><thead id="th"></thead><tbody id="rows"></tbody></table></div>
+</section>
+
+<section id="s3" hidden>
+<div class="grid">
+<div class="card"><h2>Average score by theme</h2><div class="cv" style="height:300px"><canvas id="theme"></canvas></div></div>
+<div class="card"><h2>RAG heatmap (traditional → extended)</h2><div class="tiles" id="tiles"></div></div>
+</div>
+<div class="grid">
+<div class="card"><h2>Key insights</h2><ul id="ins"></ul></div>
+<div class="card"><h2>Recommendations</h2><ul id="rec"></ul></div>
+</div>
+</section>
+
+<p class="note">All scores are illustrative judgments out of 10 for classroom analysis, not Titan data. Verify store counts, schemes and financials from Titan’s annual report before presenting. Colour bands: 8 and above green, 7 amber, 6 and below red.</p>
+</div>
+
+<script>
+// name, short, theme, trad, ext, example, KPI, why-trad, modernized, limitation, why-ext
+const P=[
+["Division of work","Division","Structure",8,9,"Separate design, karigar, quality, retail and CRM teams","Orders per team member","Clear specialist roles, but handoffs add delay","Specialists plus AI-assisted design and cross-functional pods","Narrow roles slow response to fast-changing trends","Pods and digital design tools cut handoffs"],
+["Authority and responsibility","Authority","Authority",7,8,"Store managers own targets and service","Target achievement %","Authority is clear, but local discounts are limited","Authority backed by live dashboards and clear decision rights","Assumes authority alone delivers results","Dashboards let managers act on live data"],
+["Discipline","Discipline","Authority",8,8,"BIS hallmarking and Tata code of conduct","Compliance audit pass rate","Strong, standards-driven process discipline","Automated compliance checks and audit trails","Rule-following can stifle judgment","Digital trails sustain standards, no major change"],
+["Unity of command","Command","Structure",7,7,"Store staff report to one store manager","Conflicting-instruction incidents","One line in stores, blurred across franchise and brand teams","One accountable owner inside cross-team projects","Breaks down in matrix and partner setups","Matrix reporting still strains it"],
+["Unity of direction","Direction","Structure",8,9,"One brand plan across collections and campaigns","Campaign-to-sales alignment","Common brand plan across regions","Shared goals tracked in one live OKR view","A single plan struggles with local tastes","Shared metrics align regions and channels"],
+["Subordination of individual interest","Common good","Org. interest",8,8,"Brand trust placed above single-store gains","Customer complaint rate","Customer trust is protected over short-term sales","Purpose-led goals that balance all stakeholders","Ignores customers and society as stakeholders","Already stakeholder-minded under Tata values"],
+["Remuneration","Pay","People",7,8,"Incentives tied to sales and service","Incentive satisfaction score","Competitive pay, mostly sales-linked","Pay mixing sales, service quality and skill growth","Pay alone ignores recognition and learning","Skill and service incentives widen fairness"],
+["Centralization","Centralization","Authority",6,8,"Central pricing with local store discretion","Decision turnaround time","Pricing and design are central, so local response is slow","Central guardrails with data-backed local autonomy","Gives no guidance for digital, decentralized decisions","Guardrails plus local autonomy fit omnichannel"],
+["Scalar chain","Scalar chain","Structure",6,8,"Store to region to HQ reporting","Escalation resolution time","Reporting is clear but slow for urgent issues","Networked communication through apps and ERP","A strict chain delays information","Apps and ERP allow direct, tracked escalation"],
+["Order","Order","Structure",8,9,"Right stock in the right store for festive demand","Stock-out rate","Strong inventory planning, manual in parts","Real-time inventory and supply-chain visibility","Static ‘place for everything’ misses live demand","Live stock visibility across stores and online"],
+["Equity","Equity","People",7,8,"Fair treatment of staff, karigars and franchisees","Staff NPS","Fair policies, uneven across partners","Transparent practices backed by feedback tools","Frames equity as manager kindness only","Feedback tools surface unfairness early"],
+["Stability of tenure","Tenure","People",8,8,"Long-serving artisans and sales staff","Attrition %","Stable core workforce","Retention plus continuous reskilling","Stability can mean stagnant skills","Reskilling helps, little net change"],
+["Initiative","Initiative","People",6,9,"Staff ideas for designs and store experience","Ideas implemented per year","Ideas welcomed, but few formal channels","Employee-led innovation and design labs","Treats initiative as a bonus, not a system","Idea platforms make initiative systematic"],
+["Esprit de corps","Team spirit","People",8,8,"Tata culture and recognition programmes","Engagement index","Strong shared pride in the brand","Team spirit sustained across hybrid and digital teams","Assumes co-located teams","Culture already holds across stores and online"],
+["Customer centricity","Customer","Extension",null,9,"Try-at-home, lifetime exchange, personalization","Customer NPS","","Customer needs steer design, service and pricing","Fayol looked inward at the organization","Strong service promises and brand trust"],
+["Data-driven decisions","Data","Extension",null,7,"Demand forecasting and loyalty analytics","Forecast accuracy","","Decisions guided by analytics and AI","A 1916 model has no place for data","Analytics in use but not yet everywhere"],
+["Sustainability and ethical sourcing","Ethics","Extension",null,8,"Responsible gold sourcing and traceability","Share of certified sourcing","","Decisions weigh ethics and the environment","Silent on ethics and the environment","Tata values support sourcing standards"],
+["Agility and digital adoption","Agility","Extension",null,8,"Omnichannel, video-call selling, online store","Online share of sales","","Fast adaptation to digital change","Built for stable, slow conditions","Strong omnichannel move, still scaling"]
+];
+const LOGIC={
+1:["Stage 1 prompt: ‘For each of Fayol’s 14 principles, give one Tanishq example, a score out of 10 with a one-line reason, and one KPI.’","Logic: a baseline comes first. Without scoring the original model, we cannot show what the extension changes. Each score has a reason and a KPI so it can be checked."],
+2:["Stage 2 prompt: ‘Modernize each principle for the AI era, state the limitation that justifies the change, add 3 to 4 missing principles, then re-score Tanishq.’","Logic: this is the experiment. Each change is tied to a stated weakness of the 1916 model, and the new principles cover what Fayol did not address: customers, data, ethics and agility."],
+3:["Stage 3 prompt: ‘Build a dashboard comparing both versions, with KPI cards, charts, a RAG view, five insights and five recommendations.’","Logic: the dashboard turns the two scorecards into differences. Like-for-like gain compares the same 14 principles, while the extended score also counts the four new ones."]};
+const RUB="Scoring rubric: 9–10 embedded and measurable; 7–8 practised with gaps; 5–6 partial or informal; 4 and below weak. Each score has a one-line reason in the table. Edit any score to test a different view.";
+const REC=["Create a rewarded idea platform so store and artisan ideas reach design and marketing (Initiative).","Give stores more say over local offers and stock, within central price guardrails (Centralization).","Add direct digital channels from stores to HQ for urgent issues (Scalar chain).","Invest in forecasting and customer analytics shared across regions (Data-driven decisions).","Name one accountable owner when brand, retail and franchise goals clash (Unity of command)."];
+const THEMES=["Structure","Authority","People","Org. interest","Extension"];
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const rag=s=>s>=8?"G":s>=7?"A":"R";
+const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null;
+const init=()=>P.map(p=>({t:p[3],e:p[4]}));
+let S=init(),st=1,radar,gap,thm;
+const T=()=>P.map((p,i)=>i).filter(i=>P[i][3]!==null);
+
+function logic(){document.getElementById("logic").innerHTML="<h2>Why this stage</h2><p style='margin:0'>"+LOGIC[st][1]+"</p><details><summary>AI prompt used at this stage</summary><p>"+LOGIC[st][0]+"</p></details>";}
+function table(){
+  const th=document.getElementById("th"),rows=document.getElementById("rows");
+  const inp=(i,k)=>`<input type="number" min="0" max="10" step="0.5" value="${S[i][k]}" data-i="${i}" data-k="${k}" aria-label="${P[i][0]} ${k=="t"?"traditional":"extended"} score">`;
+  if(st==1){
+    document.getElementById("tt").textContent="Traditional scorecard";
+    th.innerHTML="<tr><th>Principle</th><th>Tanishq example</th><th>Score</th><th>Why this score</th><th>KPI</th></tr>";
+    rows.innerHTML=T().map(i=>{const p=P[i];return `<tr><td>${p[0]}</td><td>${p[5]}</td><td>${inp(i,"t")}</td><td>${p[7]}</td><td>${p[6]}</td></tr>`}).join("");
+  }else{
+    document.getElementById("tt").textContent="Extended scorecard";
+    th.innerHTML="<tr><th>Principle</th><th>Modernized version</th><th>Limitation of Fayol’s model</th><th>Score</th><th>Why this score</th></tr>";
+    rows.innerHTML=P.map((p,i)=>`<tr class="${p[3]===null?"new":""}"><td>${p[0]}</td><td>${p[8]}</td><td>${p[9]}</td><td>${inp(i,"e")}</td><td>${p[10]}</td></tr>`).join("");
+  }
+}
+function kpis(){
+  const t=avg(T().map(i=>S[i].t)),e=avg(S.map(x=>x.e)),e14=avg(T().map(i=>S[i].e));
+  const sorted=S.map((x,i)=>[P[i][0],x.e]).sort((a,b)=>b[1]-a[1]);
+  const k=[["Traditional score",t.toFixed(1)+"/10","Average of 14 principles"],["Extended score",e.toFixed(1)+"/10","Average of 18 principles"],["Like-for-like gap",(e14-t>=0?"+":"")+(e14-t).toFixed(1),"Same 14 principles, extended minus traditional"],["Strongest",sorted[0][1]+"/10",sorted[0][0]],["Weakest",sorted[sorted.length-1][1]+"/10",sorted[sorted.length-1][0]]];
+  document.getElementById("kpis").innerHTML=k.map(x=>`<div class="card kpi"><span>${x[0]}</span><b>${x[1]}</b><small>${x[2]}</small></div>`).join("");
+}
+function charts(){
+  const maroon=css("--maroon"),gold=css("--gold");
+  Chart.defaults.color=css("--ink");Chart.defaults.borderColor=css("--line");
+  [radar,gap,thm].forEach(c=>c&&c.destroy());
+  const idx=st==1?T():P.map((p,i)=>i),ds=[];
+  if(st!=2)ds.push({label:"Traditional",data:idx.map(i=>S[i].t),borderColor:gold,backgroundColor:gold+"33",pointBackgroundColor:gold,borderWidth:2});
+  if(st!=1)ds.push({label:"Extended",data:idx.map(i=>S[i].e),borderColor:maroon,backgroundColor:maroon+"33",pointBackgroundColor:maroon,borderWidth:2});
+  document.getElementById("rt").textContent=st==1?"Traditional profile":st==2?"Extended profile":"Traditional vs extended";
+  radar=new Chart(document.getElementById("radar"),{type:"radar",data:{labels:idx.map(i=>P[i][1]),datasets:ds},options:{maintainAspectRatio:false,scales:{r:{min:0,max:10,ticks:{stepSize:2,backdropColor:"transparent"},pointLabels:{font:{size:11}}}}}});
+  if(st==3){
+    const g=T().map(i=>[P[i][1],S[i].e-S[i].t]).sort((a,b)=>b[1]-a[1]);
+    gap=new Chart(document.getElementById("gap"),{type:"bar",data:{labels:g.map(x=>x[0]),datasets:[{label:"Points gained",data:g.map(x=>x[1]),backgroundColor:g.map(x=>x[1]>0?maroon:gold)}]},options:{indexAxis:"y",maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{stepSize:1}}}}});
+    const by=(th,k)=>avg(P.map((p,i)=>i).filter(i=>P[i][2]==th&&S[i][k]!==null).map(i=>S[i][k]));
+    thm=new Chart(document.getElementById("theme"),{type:"bar",data:{labels:THEMES,datasets:[{label:"Traditional",data:THEMES.map(t=>by(t,"t")),backgroundColor:gold},{label:"Extended",data:THEMES.map(t=>by(t,"e")),backgroundColor:maroon}]},options:{maintainAspectRatio:false,scales:{y:{min:0,max:10}}}});
+  }
+}
+function s3(){
+  document.getElementById("tiles").innerHTML=P.map((p,i)=>`<div class="tile ${rag(S[i].e)}"><b>${p[0]}</b>${S[i].t===null?"new":S[i].t} → ${S[i].e} · ${p[6]}</div>`).join("");
+  const g=T().map(i=>[P[i][0],S[i].e-S[i].t]).sort((a,b)=>b[1]-a[1]);
+  const flat=g.filter(x=>x[1]==0).map(x=>x[0]);
+  const ext=P.map((p,i)=>[p[0],S[i].e,p[2]]).sort((a,b)=>a[1]-b[1]);
+  const reds=n=>S.filter(x=>x[n]!==null&&x[n]<=6).length;
+  const newAvg=avg(P.map((p,i)=>i).filter(i=>P[i][2]=="Extension").map(i=>S[i].e));
+  const ins=[
+   `Largest gains: ${g.slice(0,3).map(x=>x[0]+" (+"+x[1]+")").join(", ")}. These are where a top-down 1916 design fits a digital retailer least.`,
+   `${flat.length} principles do not change (${flat.slice(0,4).join(", ")}${flat.length>4?", and more":""}): they already match modern practice.`,
+   `Red scores fall from ${reds("t")} to ${reds("e")} after the extension.`,
+   `The four added principles average ${newAvg.toFixed(1)}/10, showing where Tanishq is strong outside Fayol’s model.`,
+   `Lowest extended score: ${ext[0][0]} at ${ext[0][1]}/10, the clearest area to improve.`];
+  document.getElementById("ins").innerHTML=ins.map(x=>"<li>"+x+"</li>").join("");
+  document.getElementById("rec").innerHTML=REC.map(x=>"<li>"+x+"</li>").join("");
+}
+function render(){
+  logic();table();charts();
+  document.getElementById("kpis").hidden=st!=3;
+  document.getElementById("s3").hidden=st!=3;
+  document.getElementById("tcard").hidden=st==3;
+  document.getElementById("gapbox").hidden=st!=3;
+  const r=document.getElementById("rubric");r.hidden=st==3;r.innerHTML="<h2>How scores are derived</h2><p>"+RUB+"</p>";
+  if(st==3){kpis();s3();}
+}
+document.querySelectorAll(".bar button").forEach(b=>b.onclick=()=>{st=+b.dataset.s;document.querySelectorAll(".bar button").forEach(x=>x.setAttribute("aria-pressed",x===b));render();});
+document.getElementById("rows").addEventListener("change",e=>{
+  const t=e.target;if(!t.dataset.i)return;
+  let v=Math.max(0,Math.min(10,parseFloat(t.value)));if(isNaN(v))v=P[t.dataset.i][t.dataset.k=="t"?3:4];
+  S[t.dataset.i][t.dataset.k]=v;charts();});
+document.getElementById("reset").onclick=()=>{S=init();render();};
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>setTimeout(()=>{charts();},50));
+render();
+</script>
+</body>
+</html>
